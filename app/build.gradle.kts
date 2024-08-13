@@ -66,4 +66,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation("androidx.compose.runtime:runtime-livedata:1.6.8")
+
+    // Extra icons
+    implementation ("androidx.compose.material:material-icons-extended:1.6.8")
+
 }
