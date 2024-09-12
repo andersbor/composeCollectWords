@@ -62,7 +62,7 @@ fun CollectWords(modifier: Modifier = Modifier) {
     var showList by remember { mutableStateOf(true) }
     val delete: (String) -> Unit = { words.remove(it) }
 
-    Column(modifier = Modifier.padding(10.dp)) {
+    Column(modifier = modifier.padding(10.dp)) {
         Text(text = "Collect words", style = MaterialTheme.typography.headlineLarge)
         OutlinedTextField(
             value = word,
