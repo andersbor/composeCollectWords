@@ -56,40 +56,44 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun CollectWords(modifier: Modifier = Modifier) {
     // https://tigeroakes.com/posts/mutablestateof-list-vs-mutablestatelistof/
-    val words = remember { mutableStateListOf<String>() }
-    var word by remember { mutableStateOf("") }
-    var result by remember { mutableStateOf("") }
-    var showList by remember { mutableStateOf(true) }
+    val words = remember {  mutableStateListOf<String>() }
+    // rememberSaveable not working with mutableStateListOf<String>()
+    var currentWord by remember { mutableStateOf("") }
+    var displayedResult by remember { mutableStateOf("") }
+    var isListVisible by remember { mutableStateOf(true) }
     val delete: (String) -> Unit = { words.remove(it) }
 
     Column(modifier = modifier.padding(10.dp)) {
         Text(text = "Collect words", style = MaterialTheme.typography.headlineLarge)
         OutlinedTextField(
-            value = word,
-            onValueChange = { word = it },
+            value = currentWord,
+            onValueChange = { currentWord = it },
             // https://medium.com/@GkhKaya00/exploring-keyboard-types-in-kotlin-jetpack-compose-ca1f617e1109
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier.fillMaxWidth(),
-            label = { Text("Enter a word") }
+            label = { Text("Enter a word") },
+            singleLine = true
         )
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(onClick = {
-                words.add(word)
+                // TODO check if the word is not empty
+                words.add(currentWord)
+                currentWord = ""
             }) {
                 Text("Add")
             }
             Button(onClick = {
                 words.clear()
-                word = ""
-                result = ""
+                currentWord = ""
+                displayedResult = ""
             }) {
                 Icon(Icons.Filled.Clear, contentDescription = "Clear")
                 //Text("Clear")
             }
-            Button(onClick = { result = words.joinToString() }) {
+            Button(onClick = { displayedResult = words.joinToString() }) {
                 Row {
                     Icon(Icons.Filled.Visibility, contentDescription = "Show")
                     Spacer(modifier = Modifier.padding(5.dp))
@@ -98,8 +102,8 @@ fun CollectWords(modifier: Modifier = Modifier) {
             }
 
         }
-        if (result.isNotEmpty()) {
-            Text(result)
+        if (displayedResult.isNotEmpty()) {
+            Text(displayedResult)
         } else {
             Text("Empty", fontStyle = FontStyle.Italic)
         }
@@ -109,9 +113,9 @@ fun CollectWords(modifier: Modifier = Modifier) {
         ) {
             Text("Show list")
             Spacer(modifier = Modifier.padding(5.dp))
-            Switch(checked = showList, onCheckedChange = { showList = it })
+            Switch(checked = isListVisible, onCheckedChange = { isListVisible = it })
         }
-        if (showList) {
+        if (isListVisible) {
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
                 items(words) { wo ->
                     Text(wo, modifier = Modifier.clickable { delete(wo) })

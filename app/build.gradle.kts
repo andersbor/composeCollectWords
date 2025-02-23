@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.collectwords"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.collectwords"
@@ -67,9 +67,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation("androidx.compose.runtime:runtime-livedata:1.6.8")
+    implementation("androidx.compose.runtime:runtime-livedata:1.7.8")
 
     // Extra icons
-    implementation ("androidx.compose.material:material-icons-extended:1.6.8")
+    implementation ("androidx.compose.material:material-icons-extended:1.7.8")
 
 }
